@@ -1,5 +1,7 @@
 [CakeBuild](http://cakebuild.net/)
 ====
+__Cake (C# Make)__는 C# 스크립트를 이용해서 자동화된 빌드 환경을 구성할 수 있도록 해주는 시스템입니다. 
+
 
 빌드 환경 준비하기
 ----
@@ -65,7 +67,7 @@ Task("package")
     });
 ```
 
-__처음에 실행될 태스크 설정하기__
+__처음에 실행될 태스크 설정하기__<br>
 `target` 이름의 Argument를 통해서 실행될 태스크를 설정할 수 있습니다.
 ```cs
 var target = Argument("target", "task1");
@@ -87,6 +89,34 @@ RunTarget(target);
 빌드 스크립트를 실행할 때 `-Target TASK-NAME` 과 같이 추가 파라미터를 전달합니다.
 ```
 ./build.ps1 -Target task1
+```
+
+외부로부터 값 입력받기
+----
+__환경 변수 가져오기__
+```cs
+var value = EnvironmentVariable("KEY");
+```
+추가적으로, 현재 실행 환경을 가져오는 메소드도 제공합니다.
+```cs
+// 윈도우
+if (IsRunningOnWindows()) {
+    /* .... */
+}
+
+// 유닉스
+if (IsRunningOnUnix()) {
+    /* .... */
+}
+```
+
+__명령줄 인수 가져오기__
+```cs
+var value = Argument("KEY", DEFAULT_VALUE);
+```
+빌드를 실행할 때 아래와 같이 추가로 `ScriptArgs` 를 넘겨주어야 합니다.
+```
+./build.ps1 -ScriptArgs "-KEY=VALUE"
 ```
 
 MSBuild 사용하기

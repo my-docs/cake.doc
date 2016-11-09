@@ -143,7 +143,6 @@ Process.Start("name", "args");
 
 디렉토리 작업 수행하기
 ----
-
 ```cs
 Task("clean")
     .Does(() => {
@@ -151,7 +150,42 @@ Task("clean")
         CleanDirectory("build-stage");
     });
 ```
+```cs
+// 디렉토리의 파일을 모두 비운다
+CleanDirectory("PATH");
+
+// 디렉토리 자체를 지운다
+DeleteDirectory("PATH", recursive: true);
+
+// 지정된 경로의 폴더가 없으면 생성한다
+EnsureDirectoryExists("PATH");
+
+// 폴더간 복사를 수행한다
+CopyDirectory("PATH1", "PATH2");
+```
 
 파일 작업 수행하기
 ----
 
+HTTP 요청하기
+----
+__Cake__에서는 몇가지 HTTP 함수를 제공합니다.
+```cs
+// 특정 주소의 파일을 다운받는다.
+DownloadFile("http://www.naver.com", "file.zip");
+
+// 로컬 파일을 서버에 업로드한다.
+UploadFile("http://www.naver.com", "file.zip");
+```
+이 함수들은 기능이 상당히 제한적이며, 추가적인 설정이나, 파일과 관련되지 않은 일반적인 HTTP 요청에는 .Net API를 사용해야 합니다.
+
+```cs
+// http://stackoverflow.com/questions/4015324/http-request-with-post
+
+var request = (HttpWebRequest)WebRequest
+    .Create("http://www.example.com/recepticle.aspx");
+
+var response = (HttpWebResponse)request.GetResponse();
+
+var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+```

@@ -189,3 +189,22 @@ var response = (HttpWebResponse)request.GetResponse();
 
 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 ```
+
+Aws.S3
+----
+빌드된 결과물을 `Aws.S3`에 업로드하는 방법입니다.
+```cs
+#addin "Cake.AWS.S3"
+
+var settings = new UploadSettings()
+    {
+        AccessKey = "ACCESS_KEY",
+        SecretKey = "ACCESS_SECRET",
+
+        Region = RegionEndpoint.APNortheast1 ,
+        BucketName = "BUCKET_NAME",
+      
+        CannedACL = S3CannedACL.PublicRead
+    };
+S3Upload("localpath/foo.zip", "s3path/foo.zip", settings);
+```
